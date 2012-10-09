@@ -108,11 +108,35 @@ $(window).load(function(){
 
   function display_data() {
     var data_text;
-    data_text = "<h3>Data Export</h3>";
+    data_text = "<pre>";
 
-    jQuery().toastmessage({ sticky : true });
-    jQuery().toastmessage("showNoticeToast", data_text);
-    jQuery().toastmessage({ sticky : false });
+    data_text += "Calibration Phase\n";
+
+    for (var i=0; i<calibration_array_copy.length; i++) {
+      data_text += calibration_array_copy[i] + ",";
+      data_text += calibration_array_arrows_copy[i] + ",";
+      data_text += (calibration_array_time[i]/1000) + "\n";
+    } 
+
+    data_text += "Main Phase\n";
+
+    for (var i=0; i<main_array_copy.length; i++) {
+      data_text += main_array_copy[i] + ",";
+      data_text += main_array_arrows_copy[i] + ",";
+      data_text += (main_array_time[i]/1000) + "\n";
+    } 
+
+    data_text += "Cooldown Phase\n";
+
+    for (var i=0; i<cooldown_array_copy.length; i++) {
+      data_text += cooldown_array_copy[i] + ",";
+      data_text += cooldown_array_arrows_copy[i] + ",";
+      data_text += (cooldown_array_time[i]/1000) + "\n";
+    } 
+    
+    data_text += "</pre>";
+    jQuery("#dialog").html(data_text);
+    jQuery("#dialog").dialog();
   }
 
   function calibration_loop() {
@@ -443,7 +467,7 @@ $(window).load(function(){
     <td>.</td>     <td>.</td> </tr>  
   
 </table>
-  
+<div id="dialog"></div>  
 </body>
 
 
