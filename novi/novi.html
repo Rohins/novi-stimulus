@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Novi Stimulus </title>
+
+  <script type='text/javascript' src='js\jquery-1.8.2.min.js'></script>
+  <script type='text/javascript' src='js\AIRAliases.js'></script>
+  <script type='text/javascript' src='js/jquery-ui-1.8.24.custom.min.js'></script>
+  <script type='text/javascript' src='js/jquery.toastmessage.js'></script>
+  <link rel="StyleSheet" href="css/vader/jquery-ui-1.8.24.custom.css" type = "text/css"></link>
+  <link rel="StyleSheet" href="css/jquery.toastmessage.css" type = "text/css"></link>
+  <style type='text/css'>
+  body {
+    color: black;   
+    background-color:black;
+  }
+
+	.theTable {
+		width:576px;
+		margin-left:auto; 
+		margin-right:auto;
+	}
+
+	.theTable td { 
+		width: 64px;
+		height: 64px;
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.target {
+		background-image: url("icons/arrow_expand.png");
+	}
+	.arrow_up {
+		background-image: url("icons/arrow_up.png");
+	}
+	.arrow_down {
+		background-image: url("icons/arrow_down.png");
+	}
+
+  </style>
+  
+
+
+<script type='text/javascript'>//<![CDATA[ 
+$(window).load(function(){
+  var loop_switch = 0;
+  var start_time = new Date();
+
+  var calibration_array_copy;
+  var cooldown_array_copy;
+  var main_array_copy;
+
+  var calibration_array_arrows;
+  var cooldown_array_arrows;
+  var main_array_arrows;
+
+  var calibration_array_arrows_copy;
+  var cooldown_array_arrows_copy;
+  var main_array_arrows_copy;
+
+  var calibration_array_time = new Array();
+  var cooldown_array_time = new Array();
+  var main_array_time = new Array();
+
+  var calibration_array = [1,1,1,1,1,1,0,0,0,0,0];           
+  var cooldown_array = [1,1,1,1,1,1,0,0,0,0,0];           
+  var main_array = [0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,0,0,0,0,0,
+            0,0,0,0,0,1,1,1,1,1,
+            1,1,1,1,1,1,1,1,1,1,
+            1,1,1,1,1,1,1,1,1,1];
+
+  var target_id = "#left";
+
+  shuffle = function(o) { 
+  for(var j, x, i = o.length; i; 
+    j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+  };
+
+  function strip_classes() {
+    jQuery("#left").removeClass("target");
+    jQuery("#right").removeClass("target");
+    jQuery("#middle").removeClass("target");
+    jQuery("#left").removeClass("arrow_up");
+    jQuery("#right").removeClass("arrow_up");
+    jQuery("#middle").removeClass("arrow_up");
+    jQuery("#left").removeClass("arrow_down");
+    jQuery("#right").removeClass("arrow_down");
+    jQuery("#middle").removeClass("arrow_down");
+  }
+
+  jQuery().toastmessage({
+      sticky   : false,
+      position : 'middle-center'
+  });
+
+  function display_help() {
+    var help_text;
+    help_text =  "<h3>Hotkeys</h3>";
+    help_text += "h: Help<br />";
+    help_text += "d: Data Export<br />";
+    help_text += "x: Start Program<br />";
+    jQuery().toastmessage("showNoticeToast", help_text);
+  }
+
+  function display_data() {
+    var data_text;
+    data_text = "<pre>";
+
+    data_text += "Calibration Phase\n";
+
+    for (var i=0; i<calibration_array_copy.length; i++) {
+      data_text += calibration_array_copy[i] + ",";
+      data_text += calibration_array_arrows_copy[i] + ",";
+      data_text += (calibration_array_time[i]/1000) + "\n";
+    } 
+
+    data_text += "Main Phase\n";
+
+    for (var i=0; i<main_array_copy.length; i++) {
+      data_text += main_array_copy[i] + ",";
+      data_text += main_array_arrows_copy[i] + ",";
+      data_text += (main_array_time[i]/1000) + "\n";
+    } 
+
+    data_text += "Cooldown Phase\n";
+
+    for (var i=0; i<cooldown_array_copy.length; i++) {
+      data_text += cooldown_array_copy[i] + ",";
+      data_text += cooldown_array_arrows_copy[i] + ",";
+      data_text += (cooldown_array_time[i]/1000) + "\n";
+    } 
+    
+    data_text += "</pre>";
+    jQuery("#dialog").html(data_text);
+    jQuery("#dialog").dialog();
+  }
+
+  function calibration_loop() {
+    var middle_delay= 1400 + Math.floor(Math.random()*400);
+    strip_classes();
+    
+    jQuery("#middle").addClass("target");
+    var timeoutID = window.setTimeout(
+    function(){   
+      if (calibration_array.length <= 0) {
+        strip_classes();
+
+        jQuery().toastmessage("showNoticeToast", "Calibration Complete");
+        main_loop();
+        return;
+      }
+      target = calibration_array.shift();
+      d = new Date();
+      calibration_array_time.push (d.getTime() - start_time.getTime()); 
+
+      target_id = "#left";
+      if (target == 1) {
+        target_id = "#right";
+      }   
+      strip_classes();
+      jQuery(target_id).addClass("target");
+
+      var tiemoutID = window.setTimeout(
+      function() {
+      var up_or_down = calibration_array_arrows.shift();
+
+      var target_up_or_down = "arrow_up";
+      if (up_or_down == 1) target_up_or_down = "arrow_down";  
+
+      strip_classes();
+      jQuery(target_id).addClass(target_up_or_down);
+      
+      var timeoutID = window.setTimeout(
+        function() {
+          strip_classes(); 
+          calibration_loop();
+        },
+        1200
+      );
+      },
+      400
+      );
+    }, 
+    middle_delay); 
+  }
+
+  function main_loop() {
+    var middle_delay= 1400 + Math.floor(Math.random()*400);
+    strip_classes();
+
+    jQuery("#middle").addClass("target");
+    var timeoutID = window.setTimeout(
+      function(){   
+        if (main_array.length <= 0) {
+          strip_classes();
+          jQuery().toastmessage("showNoticeToast", "Test Complete");
+          cooldown_loop();
+          return;
+        }
+        target = main_array.shift();
+        d = new Date();
+        main_array_time.push (d.getTime() - start_time.getTime()); 
+
+        target_id = "#left";
+        if (target == 1) {
+          target_id = "#right";
+        }   
+        strip_classes();
+        jQuery(target_id).addClass("target");
+
+        var timeoutID = window.setTimeout(
+          function() {
+            var up_or_down = main_array_arrows.shift();
+
+            var target_up_or_down = "arrow_up";
+            if (up_or_down == 1) target_up_or_down = "arrow_down";  
+
+            strip_classes();
+            jQuery(target_id).addClass(target_up_or_down);
+            
+            var timeoutID = window.setTimeout(
+              function() {
+                strip_classes(); 
+                main_loop();
+              },
+              1200
+            );
+          },
+          400
+        );
+    }, 
+    middle_delay); 
+  }
+
+  function cooldown_loop() {
+    var middle_delay= 1400 + Math.floor(Math.random()*400);
+    strip_classes();
+
+    jQuery("#middle").addClass("target");
+    var timeoutID = window.setTimeout(
+    function(){   
+      if (cooldown_array.length <= 0) {
+        strip_classes();
+        jQuery().toastmessage("showNoticeToast", "Cooldown Complete");
+        loop_switch = 0;
+        return;
+      }
+      target = cooldown_array.shift();
+      d = new Date();
+      cooldown_array_time.push (d.getTime() - start_time.getTime()); 
+
+      target_id = "#left";
+      if (target == 1) {
+        target_id = "#right";
+      }   
+      strip_classes();
+      jQuery(target_id).addClass("target");
+
+      var timeoutID = window.setTimeout(
+      function() {
+      var up_or_down = cooldown_array_arrows.shift();
+
+      var target_up_or_down = "arrow_up";
+      if (up_or_down == 1) target_up_or_down = "arrow_down";  
+
+      strip_classes();
+      jQuery(target_id).addClass(target_up_or_down);
+      
+      var timeoutID = window.setTimeout(
+        function() {
+          strip_classes(); 
+          cooldown_loop();
+        },
+        1200
+      );
+      },
+      400
+      );
+    }, 
+    middle_delay); 
+  }
+  jQuery(document).ready( function() {
+    jQuery(".ui_button").button(); 
+
+    shuffle(main_array);
+    shuffle(calibration_array);
+    shuffle(cooldown_array);
+    
+    main_array_copy = main_array.slice(0);
+    calibration_array_copy = calibration_array.slice(0);
+    cooldown_array_copy = cooldown_array.slice(0);
+
+    //arrows
+    main_array_arrows = main_array.slice(0);
+    calibration_array_arrows = calibration_array.slice(0);
+    cooldown_array_arrows = cooldown_array.slice(0);
+
+    shuffle(main_array_arrows);
+    shuffle(calibration_array_arrows);
+    shuffle(cooldown_array_arrows);
+
+    main_array_arrows_copy = main_array_arrows.slice(0);
+    calibration_array_arrows_copy = calibration_array_arrows.slice(0);
+    cooldown_array_arrows_copy = cooldown_array_arrows.slice(0);
+    
+    jQuery("#start_test").click (function () {
+      calibration_loop();
+    });
+
+    jQuery("body").keypress(function(event) {
+      if (loop_switch == 0) {
+        if ( event.which == 120 ) {
+          loop_switch = 1;
+          calibration_loop();
+        }
+        if ( event.which == 104 ) {
+          display_help();
+        }
+        if (event.which == 100 ) {
+          display_data();
+        }
+      }
+    });
+  });
+});//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <table class='theTable'>
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td id='left'>.</td>
+    <td>.</td>
+    <td id='middle'>.</td>
+    <td>.</td>
+    <td id='right'>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+  </tr>   
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+
+  <tr>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>
+    <td>.</td>     <td>.</td> </tr>  
+  
+</table>
+<div id="dialog"></div>  
+</body>
+
+
+</html>
+

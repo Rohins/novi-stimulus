@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<application xmlns="http://ns.adobe.com/air/application/2.7"> 
+    <id>examples.html.novi</id> 
+    <versionNumber>0.1</versionNumber> 
+    <filename>novi</filename> 
+    <initialWindow> 
+        <content>novi.html</content> 
+        <visible>true</visible> 
+        <width>700</width> 
+        <height>700</height> 
+    </initialWindow> 
+</application>
