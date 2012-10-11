@@ -150,7 +150,7 @@ $(window).load(function(){
         strip_classes();
 
         jQuery().toastmessage("showNoticeToast", "Calibration Complete");
-        var timeoutID = window.setTimeout( function(){main_loop();}, 800);
+        var timeoutID = window.setTimeout( function(){main_loop();}, 3500);
         return;
       }
       target = calibration_array.shift();
@@ -198,7 +198,7 @@ $(window).load(function(){
         if (main_array.length <= 0) {
           strip_classes();
           jQuery().toastmessage("showNoticeToast", "Test Complete");
-          var timeoutID = window.setTimeout( function(){cooldown_loop();}, 800);
+          var timeoutID = window.setTimeout( function(){cooldown_loop();}, 3500);
           return;
         }
         target = main_array.shift();
