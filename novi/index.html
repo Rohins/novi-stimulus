@@ -46,7 +46,7 @@
 <script type='text/javascript'>//<![CDATA[ 
 $(window).load(function(){
   var loop_switch = 0;
-  var start_time = new Date();
+  var start_time;
 
   var calibration_array_copy;
   var cooldown_array_copy;
@@ -140,7 +140,7 @@ $(window).load(function(){
   }
 
   function calibration_loop() {
-    var middle_delay= 1400 + Math.floor(Math.random()*400);
+    var middle_delay= 1600 + Math.floor(Math.random()*400);
     strip_classes();
     
     jQuery("#middle").addClass("target");
@@ -150,7 +150,7 @@ $(window).load(function(){
         strip_classes();
 
         jQuery().toastmessage("showNoticeToast", "Calibration Complete");
-        main_loop();
+        var timeoutID = window.setTimeout( function(){main_loop();}, 800);
         return;
       }
       target = calibration_array.shift();
@@ -179,17 +179,17 @@ $(window).load(function(){
           strip_classes(); 
           calibration_loop();
         },
-        1200
+        1000
       );
       },
-      400
+      600
       );
     }, 
     middle_delay); 
   }
 
   function main_loop() {
-    var middle_delay= 1400 + Math.floor(Math.random()*400);
+    var middle_delay= 1600 + Math.floor(Math.random()*400);
     strip_classes();
 
     jQuery("#middle").addClass("target");
@@ -198,7 +198,7 @@ $(window).load(function(){
         if (main_array.length <= 0) {
           strip_classes();
           jQuery().toastmessage("showNoticeToast", "Test Complete");
-          cooldown_loop();
+          var timeoutID = window.setTimeout( function(){cooldown_loop();}, 800);
           return;
         }
         target = main_array.shift();
@@ -227,17 +227,17 @@ $(window).load(function(){
                 strip_classes(); 
                 main_loop();
               },
-              1200
+              1000
             );
           },
-          400
+          600
         );
     }, 
     middle_delay); 
   }
 
   function cooldown_loop() {
-    var middle_delay= 1400 + Math.floor(Math.random()*400);
+    var middle_delay= 1600 + Math.floor(Math.random()*400);
     strip_classes();
 
     jQuery("#middle").addClass("target");
@@ -275,10 +275,10 @@ $(window).load(function(){
           strip_classes(); 
           cooldown_loop();
         },
-        1200
+        1000
       );
       },
-      400
+      600
       );
     }, 
     middle_delay); 
@@ -314,6 +314,7 @@ $(window).load(function(){
     jQuery("body").keypress(function(event) {
       if (loop_switch == 0) {
         if ( event.which == 120 ) {
+          start_time = new Date();
           loop_switch = 1;
           calibration_loop();
         }
