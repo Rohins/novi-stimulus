@@ -29,8 +29,31 @@
 		vertical-align: middle;
 	}
 
-	.target {
-		background-image: url("icons/arrow_expand.png");
+  .theDiv {
+    width: 64px;
+    height: 64px;
+    text-align: center;
+    vertical-align: middle;
+
+    position: absolute;
+    top: 50%;
+  }
+
+  #left {
+    left: 25%; 
+  }
+  #right {
+    right: 25%;
+  }
+  #middle {
+    left: 50%;
+  }
+
+	#middle.target {
+		background-image: url("icons/plus.png");
+	}
+	#left.target, #right.target {
+		background-image: url("icons/square.png");
 	}
 	.arrow_up {
 		background-image: url("icons/arrow_up.png");
@@ -334,141 +357,10 @@ $(window).load(function(){
 
 </head>
 <body>
-  <table class='theTable'>
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td id='left'>.</td>
-    <td>.</td>
-    <td id='middle'>.</td>
-    <td>.</td>
-    <td id='right'>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-  </tr>   
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-
-  <tr>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>
-    <td>.</td>     <td>.</td> </tr>  
-  
-</table>
-<div id="dialog"></div>  
+<div class = "theDiv" id='left'></div>
+<div class = "theDiv" id='middle'></div>
+<div class = "theDiv" id='right'></div>
+<div class = "theDiv" id="dialog"></div>  
 </body>
 
 
