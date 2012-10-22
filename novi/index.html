@@ -32,18 +32,17 @@
   .theDiv {
     width: 64px;
     height: 64px;
-    text-align: center;
-    vertical-align: middle;
 
+    margin-top: -32px;
     position: absolute;
     top: 50%;
   }
 
   #left {
-    left: 25%; 
+    left: 22%; 
   }
   #right {
-    right: 25%;
+    right: 22%;
   }
   #middle {
     left: 50%;
@@ -56,10 +55,10 @@
 		background-image: url("icons/square.png");
 	}
 	.arrow_up {
-		background-image: url("icons/arrow_up.png");
+		background-image: url("icons/square.png");
 	}
 	.arrow_down {
-		background-image: url("icons/arrow_down.png");
+		background-image: url("icons/square.png");
 	}
 
   </style>
@@ -87,13 +86,13 @@ $(window).load(function(){
   var cooldown_array_time = new Array();
   var main_array_time = new Array();
 
-  var calibration_array = [1,1,1,1,1,1,0,0,0,0,0];           
-  var cooldown_array = [1,1,1,1,1,1,0,0,0,0,0];           
-  var main_array = [0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0,0,0,0,
-            0,0,0,0,0,1,1,1,1,1,
-            1,1,1,1,1,1,1,1,1,1,
-            1,1,1,1,1,1,1,1,1,1];
+  var calibration_array = [1,1,1,1,1,1,0,0,0,0,0,0];           
+  var cooldown_array =    [1,1,1,1,1,1,0,0,0,0,0,0];           
+  var main_array = [0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,0,0,0,0,0,
+                    0,0,0,0,0,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1];
 
   var target_id = "#left";
 
@@ -137,7 +136,7 @@ $(window).load(function(){
 
     for (var i=0; i<calibration_array_copy.length; i++) {
       data_text += calibration_array_copy[i] + ",";
-      data_text += calibration_array_arrows_copy[i] + ",";
+      //data_text += calibration_array_arrows_copy[i] + ",";
       data_text += (calibration_array_time[i]/1000) + "\n";
     } 
 
